@@ -2,11 +2,15 @@ import { useState } from "react";
 import { useQuery } from "react-query";
 
 //Components
-import { Drawer, LinearProgress, Grid, Badge } from "@mui/material";
+import Item from "./Item/Item";
+import { Drawer, Badge } from "@mui/material";
 import AddSopingCartIcon from "@mui/icons-material";
+import LinearProgress from "@mui/joy/LinearProgress";
+import Grid from "@mui/joy/Grid";
 
 //Styles
 import { Wrapper } from "./App.styles";
+import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 //Types
 export type CartItemType = {
@@ -28,7 +32,28 @@ const App = () => {
     getProducts
   );
   console.log(data);
-  return <div className="App">Start</div>;
+
+  const getTotalItems = () => null;
+
+  const handleAddToCart = (clickedItem: CartItemType) => null;
+
+  const handleRemoveFromCart = () => null;
+
+  if (isLoading) return <LinearProgress />;
+
+  if (error) return <div>Somethinh went wrong...</div>;
+
+  return (
+    <Wrapper>
+      <Grid container spacing={3}>
+        {data?.map((item) => (
+          <Grid key={item.id} xs={12} sm={4}>
+            <Item item={item} handleAddToCart={handleAddToCart} />
+          </Grid>
+        ))}
+      </Grid>
+    </Wrapper>
+  );
 };
 
 export default App;
