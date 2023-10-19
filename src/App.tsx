@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 
 //Components
 import Item from "./Item/Item";
+import Cart from "./Cart/Cart";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import LinearProgress from "@mui/joy/LinearProgress";
 import Grid from "@mui/joy/Grid";
@@ -11,7 +12,6 @@ import Badge from "@mui/joy/Badge";
 
 //Styles
 import { StyledButton, Wrapper } from "./App.styles";
-import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
 
 //Types
 export type CartItemType = {
@@ -36,7 +36,8 @@ const App = () => {
     getProducts
   );
 
-  const getTotalItems = (items: CartItemType[]) => null;
+  const getTotalItems = (items: CartItemType[]) =>
+    items.reduce((ack: number, item) => ack + item.amount, 0);
 
   const handleAddToCart = (clickedItem: CartItemType) => null;
 
@@ -49,7 +50,11 @@ const App = () => {
   return (
     <Wrapper>
       <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
-        Cart goes here
+        <Cart
+          cartItems={cartItems}
+          addToCart={handleAddToCart}
+          removeFromCart={handleRemoveFromCart}
+        />
       </Drawer>
       <StyledButton onClick={() => setCartOpen(true)}>
         <Badge badgeContent={getTotalItems(cartItems)} color="danger">
