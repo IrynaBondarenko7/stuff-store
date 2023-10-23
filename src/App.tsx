@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 
 //Components
@@ -29,7 +29,18 @@ const getProducts = async (): Promise<CartItemType[]> =>
 
 const App = () => {
   const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([] as CartItemType[]);
+  const [cartItems, setCartItems] = useState<CartItemType[]>(() => {
+    const savedItems = localStorage.getItem("items");
+    if (savedItems !== null) {
+      return JSON.parse(savedItems);
+    } else {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("items", JSON.stringify(cartItems));
+  }, [cartItems]);
 
   const { data, isLoading, error } = useQuery<CartItemType[]>(
     "products",
